@@ -6,6 +6,8 @@ Welcome to **0g** - the lightest TodoList CLI Application! 🌟
 
 Just like 0 grams, this tool is super light and easy to use. Manage your tasks effortlessly with this simple and fun command-line tool. Add tasks, mark them as done, and delete them, all from the comfort of your terminal!
 
+And here's a fun fact: if you turn "go" upside down, it's "0g" - zero grams! 😉 That's how light this tool is!
+
 ## Features
 
 - 📋 **Add Tasks**: Easily add new tasks to your list.
