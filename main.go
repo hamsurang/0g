@@ -81,16 +81,16 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	if m.adding {
-		return fmt.Sprintf("Add a new choice: %s", m.newChoice)
+		return fmt.Sprintf("Add a new Task: %s", m.newChoice)
 	}
 
 	s := `
-Select options using the arrow keys and press [space] to select:
-  ┌───────────────────────────────────────────────┐
-  │ [0] Add a new choice                          │
-  │ [g] Delete the current choice                 │
-  │ [q] Quit                                      │
-  └───────────────────────────────────────────────┘
+Todo List - Use the arrow keys to navigate and [space] to mark tasks as done:
+	┌───────────────────────────────────────────────┐
+	│ [a] Add a new task                            │
+	│ [0] Delete the current task                   │
+	│ [q] Quit                                      │
+	└───────────────────────────────────────────────┘
 
 `
 	for i, choice := range m.choices {
