@@ -62,10 +62,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				} else {
 					m.selected[m.cursor] = struct{}{}
 				}
-			case "0":
+			case "a":
 				m.adding = true
 				m.newChoice = ""
-			case "g":
+			case "d":
 				if len(m.choices) > 0 {
 					m.choices = append(m.choices[:m.cursor], m.choices[m.cursor+1:]...)
 					delete(m.selected, m.cursor)
@@ -87,8 +87,8 @@ func (m model) View() string {
 	s := `
 Todo List - Use the arrow keys to navigate and [space] to mark tasks as done:
 	┌───────────────────────────────────────────────┐
-	│ [0] Add a new task                            │
-	│ [g] Delete the current task                   │
+	│ [a] Add a new task                            │
+	│ [d] Delete the current task                   │
 	│ [q] Quit                                      │
 	└───────────────────────────────────────────────┘
 
