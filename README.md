@@ -37,7 +37,7 @@ You have two super light ways to install and run **0g**. Pick whichever you like
 
 1. **Run the Script**:
     ```sh
-    curl -s https://gist.githubusercontent.com/2-NOW/18cce1f252142b4a26796b9b18a973a4/raw/c826cada374ec1f2ec1886682e050bc9743093ca/0g.sh | bash
+    curl -s https://gist.githubusercontent.com/2-NOW/18cce1f252142b4a26796b9b18a973a4/raw/ebbce5b6de9c5e9110b7596dfda9264ad3143004/0g.sh | bash
     ```
 
 ## How to Use
