@@ -1,4 +1,4 @@
-![image](https://github.com/hamsurang/0g/assets/71202076/0104060c-fe82-43ee-ad5c-afbb3d9afdd7)
+<img height="500" width="500" src="https://github.com/hamsurang/0g/assets/71202076/0104060c-fe82-43ee-ad5c-afbb3d9afdd7" />
 
 # 0g - This is the lightest TodoList
 
