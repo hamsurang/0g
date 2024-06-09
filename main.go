@@ -30,7 +30,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		if m.adding {
-			// Handle input for new choice
 			switch msg.String() {
 			case "enter":
 				if m.newChoice != "" {
@@ -45,7 +44,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.newChoice += msg.String()
 			}
 		} else {
-			// Handle regular navigation and selection
 			switch msg.String() {
 			case "ctrl+c", "q":
 				return m, tea.Quit
@@ -64,11 +62,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				} else {
 					m.selected[m.cursor] = struct{}{}
 				}
-			case "a":
+			case "0":
 				m.adding = true
 				m.newChoice = ""
 			case "g":
-				// Handle delete
 				if len(m.choices) > 0 {
 					m.choices = append(m.choices[:m.cursor], m.choices[m.cursor+1:]...)
 					delete(m.selected, m.cursor)
@@ -90,7 +87,7 @@ func (m model) View() string {
 	s := `
 Select options using the arrow keys and press [space] to select:
   ┌───────────────────────────────────────────────┐
-  │ [a] Add a new choice                          │
+  │ [0] Add a new choice                          │
   │ [g] Delete the current choice                 │
   │ [q] Quit                                      │
   └───────────────────────────────────────────────┘
