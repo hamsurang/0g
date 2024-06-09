@@ -60,10 +60,16 @@ Todo List - Use the arrow keys to navigate and [space] to mark tasks as done:
   │ [q] Quit                                      │
   └───────────────────────────────────────────────┘
 
-> [ ] Buy groceries
-  [ ] Read a book
-  [x] Write some code
-  [ ] Exercise
+  [ ] Co-authored-by: Sonny <47546413+sonsurim@users.noreply.github.com>
+  [ ] Co-authored-by: Minsoo Kim <57122180+minsoo-web@users.noreply.github.com>
+> [ ] Co-authored-by: Chung-il Jung <77133565+tooooo1@users.noreply.github.com>
+  [ ] Co-authored-by: minsuKang <90169703+minchodang@users.noreply.github.com>
+  [x] Co-authored-by: 박찬혁 <69495129+okinawaa@users.noreply.github.com>
+  [ ] Co-authored-by: 임성호 <70130721+sungh0lim@users.noreply.github.com>
+  [x] Co-authored-by: Minsoo Park <40910757+minsour@users.noreply.github.com>
+  [ ] Co-authored-by: Jonghyeon Ko <61593290+manudeli@users.noreply.github.com>
+  [ ] Co-authored-by: yejineee <43772082+yejineee@users.noreply.github.com>
+
 ```
 
 ## Have Fun!
