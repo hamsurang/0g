@@ -58,6 +58,7 @@ Here is what the application looks like:
 Todo List - Use the arrow keys to navigate and [space] to mark tasks as done:
   ┌───────────────────────────────────────────────┐
   │ [a] Add a new task                            │
+  │ [u] Update the current task                   │
   │ [d] Delete the current task                   │
   │ [q] Quit                                      │
   └───────────────────────────────────────────────┘
