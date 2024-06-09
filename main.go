@@ -3,21 +3,22 @@ package main
 import (
 	"fmt"
 	"os"
+	"unicode/utf8"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
 
 type model struct {
-	cursor    int
-	choices   []string
-	selected  map[int]struct{}
-	adding    bool
-	newChoice string
+	cursor   int
+	todos    []string
+	selected map[int]struct{}
+	adding   bool
+	newTodo  string
 }
 
 func initialModel() model {
 	return model{
-		choices:  []string{"Hello, Hamsurang!"},
+		todos:    []string{"Hello, Hamsurang!"},
 		selected: make(map[int]struct{}),
 	}
 }
@@ -30,18 +31,26 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		if m.adding {
-			switch msg.String() {
-			case "enter":
-				if m.newChoice != "" {
-					m.choices = append(m.choices, m.newChoice)
-					m.newChoice = ""
+			switch msg.Type {
+			case tea.KeyEnter:
+				if m.newTodo != "" {
+					m.todos = append(m.todos, m.newTodo)
+					m.newTodo = ""
 					m.adding = false
 				}
-			case "esc":
+			case tea.KeyEsc:
 				m.adding = false
-				m.newChoice = ""
+				m.newTodo = ""
+			case tea.KeyBackspace:
+				if len(m.newTodo) > 0 {
+					_, size := utf8.DecodeLastRuneInString(m.newTodo)
+					m.newTodo = m.newTodo[:len(m.newTodo)-size]
+				}
 			default:
-				m.newChoice += msg.String()
+
+				if msg.Type == tea.KeyRunes {
+					m.newTodo += string(msg.Runes)
+				}
 			}
 		} else {
 			switch msg.String() {
@@ -52,7 +61,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.cursor--
 				}
 			case "down", "j":
-				if m.cursor < len(m.choices)-1 {
+				if m.cursor < len(m.todos)-1 {
 					m.cursor++
 				}
 			case "enter", " ":
@@ -64,10 +73,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			case "a":
 				m.adding = true
-				m.newChoice = ""
+				m.newTodo = ""
 			case "d":
-				if len(m.choices) > 0 {
-					m.choices = append(m.choices[:m.cursor], m.choices[m.cursor+1:]...)
+
+				if len(m.todos) > 0 {
+					m.todos = append(m.todos[:m.cursor], m.todos[m.cursor+1:]...)
 					delete(m.selected, m.cursor)
 					if m.cursor > 0 {
 						m.cursor--
@@ -81,19 +91,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	if m.adding {
-		return fmt.Sprintf("Add a new Task: %s", m.newChoice)
+		return fmt.Sprintf("Add a new task: %s", m.newTodo)
 	}
 
 	s := `
 Todo List - Use the arrow keys to navigate and [space] to mark tasks as done:
-	┌───────────────────────────────────────────────┐
-	│ [a] Add a new task                            │
-	│ [d] Delete the current task                   │
-	│ [q] Quit                                      │
-	└───────────────────────────────────────────────┘
+  ┌───────────────────────────────────────────────┐
+  │ [a] Add a new task                            │
+  │ [d] Delete the current task                   │
+  │ [q] Quit                                      │
+  └───────────────────────────────────────────────┘
 
 `
-	for i, choice := range m.choices {
+	for i, todo := range m.todos {
 		cursor := " "
 		if m.cursor == i {
 			cursor = ">"
@@ -104,7 +114,7 @@ Todo List - Use the arrow keys to navigate and [space] to mark tasks as done:
 			checked = "x"
 		}
 
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
+		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, todo)
 	}
 	return s
 }
