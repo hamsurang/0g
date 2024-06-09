@@ -13,6 +13,7 @@ type model struct {
 	todos    []string
 	selected map[int]struct{}
 	adding   bool
+	updating bool
 	newTodo  string
 }
 
@@ -30,16 +31,22 @@ func (m model) Init() tea.Cmd {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		if m.adding {
+		if m.adding || m.updating {
 			switch msg.Type {
 			case tea.KeyEnter:
 				if m.newTodo != "" {
-					m.todos = append(m.todos, m.newTodo)
+					if m.adding {
+						m.todos = append(m.todos, m.newTodo)
+						m.adding = false
+					} else if m.updating {
+						m.todos[m.cursor] = m.newTodo
+						m.updating = false
+					}
 					m.newTodo = ""
-					m.adding = false
 				}
 			case tea.KeyEsc:
 				m.adding = false
+				m.updating = false
 				m.newTodo = ""
 			case tea.KeyBackspace:
 				if len(m.newTodo) > 0 {
@@ -47,7 +54,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.newTodo = m.newTodo[:len(m.newTodo)-size]
 				}
 			default:
-
 				if msg.Type == tea.KeyRunes {
 					m.newTodo += string(msg.Runes)
 				}
@@ -74,8 +80,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "a":
 				m.adding = true
 				m.newTodo = ""
-			case "d":
-
+			case "u":
+				if len(m.todos) > 0 {
+					m.updating = true
+					m.newTodo = m.todos[m.cursor]
+				}
+			case "g":
+				// Handle delete
 				if len(m.todos) > 0 {
 					m.todos = append(m.todos[:m.cursor], m.todos[m.cursor+1:]...)
 					delete(m.selected, m.cursor)
@@ -93,11 +104,15 @@ func (m model) View() string {
 	if m.adding {
 		return fmt.Sprintf("Add a new task: %s", m.newTodo)
 	}
+	if m.updating {
+		return fmt.Sprintf("Update the task: %s", m.newTodo)
+	}
 
 	s := `
 Todo List - Use the arrow keys to navigate and [space] to mark tasks as done:
   ┌───────────────────────────────────────────────┐
   │ [a] Add a new task                            │
+  │ [u] Update the current task                   │
   │ [d] Delete the current task                   │
   │ [q] Quit                                      │
   └───────────────────────────────────────────────┘
